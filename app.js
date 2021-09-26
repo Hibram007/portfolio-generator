@@ -1,5 +1,7 @@
+// code to link exported write and copy file from generate site ,js
+const { writeFile, copyFile } = require('./utils/generate-site.js');
+
 const inquirer = require('inquirer');
-const fs = require('fs');
 // assigns anonymous HTML template in page-template.js to generatePage vconst
 const generatePage = require('./src/page-template');
 
@@ -144,14 +146,18 @@ if (!portfolioData.projects) {
 promptUser()
   .then(promptProject)
   .then(portfolioData => {
-
-    const pageHTML = generatePage(portfolioData);
-// reincorporated fsWrite file ffuntionality -- to write the HTML file based on template and user input - KEY TO WRITING THE FILE
-
-    fs.writeFile('./index.html', pageHTML, err => {
-     if (err) throw new Error(err);
-
-       console.log('Page created! Check out index.html in this directory to see it!');
-    });
+    return generatePage(portfolioData);
+  })
+  .then(pageHTML => {
+    return writeFile(pageHTML);
+  })
+  .then(writeFileResponse => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then(copyFileResponse => {
+    console.log(copyFileResponse);
+  })
+  .catch(err => {
+    console.log(err);
   });
-

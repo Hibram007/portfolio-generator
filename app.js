@@ -30,6 +30,25 @@ const promptUser = () => {
                 }
             }
           },
+          { type:'confirm',
+            name:'confirmAbout',
+            message: 'Would you like to enter some information about yourself for an "About" section?',
+            default: true
+        },
+        {
+            type: 'input',
+            name: 'confirmAbout',
+            message: 'Provide some information about yourself:',
+            // a function that runs when a certain parameter is true --- here if confirmAbout question is true it launches a function to return "true"
+            // inquierer passes object with users inpur into when function
+            when: ({ confirmAbout }) => {
+                if (confirmAbout) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
           {
             type: 'input',
             name: 'about',
